@@ -1,5 +1,8 @@
+CREATE DATABASE `employees` DEFAULT CHARACTER SET utf8mb4;
+
+USE `employees`;
 -- Create employees table
-CREATE TABLE employees (
+CREATE TABLE staff (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
@@ -10,7 +13,7 @@ CREATE TABLE employees (
 );
 
 -- Insert employee data
-INSERT INTO employees (first_name, last_name, position, department, salary, hire_date) VALUES 
+INSERT INTO staff (first_name, last_name, position, department, salary, hire_date) VALUES 
 ('Taro', 'Yamada', 'Manager', 'Sales', 60000.00, '2020-01-15'),
 ('Hanako', 'Suzuki', 'Engineer', 'Development', 50000.00, '2020-02-20'),
 ('Jiro', 'Sato', 'Sales Representative', 'Sales', 45000.00, '2020-03-10'),
