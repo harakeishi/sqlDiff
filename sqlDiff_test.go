@@ -7,16 +7,6 @@ import (
 	sqldiff "github.com/harakeishi/sqlDiff"
 )
 
-type staff struct {
-	Id         int     `db:"id"`
-	FirstName  string  `db:"first_name"`
-	LastName   string  `db:"last_name"`
-	Position   string  `db:"position"`
-	Department string  `db:"department"`
-	Salary     float64 `db:"salary"`
-	HireDate   string  `db:"hire_date"`
-}
-
 func TestDB_UpdateDifferenceConfirmation(t *testing.T) {
 	type args struct {
 		dest  interface{}
@@ -30,8 +20,7 @@ func TestDB_UpdateDifferenceConfirmation(t *testing.T) {
 		{
 			name: "test1",
 			args: args{
-				dest:  make([]staff, 100),
-				query: "update staff set first_name = 'tes' where position = 'Engineer'",
+				query: "update staff set first_name = 'tes',last_name = 'as' where position = 'Engineer'",
 			},
 		},
 	}
@@ -41,8 +30,7 @@ func TestDB_UpdateDifferenceConfirmation(t *testing.T) {
 			if err != nil {
 				t.Errorf("%v", err)
 			}
-			staff := []staff{}
-			if err := d.UpdateDifferenceConfirmation(&staff, tt.args.query); (err != nil) != tt.wantErr {
+			if err := d.UpdateDifferenceConfirmation(tt.args.query); (err != nil) != tt.wantErr {
 				t.Errorf("DB.UpdateDifferenceConfirmation() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
