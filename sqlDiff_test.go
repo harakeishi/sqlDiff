@@ -1,7 +1,6 @@
 package sqldiff_test
 
 import (
-	"fmt"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -32,7 +31,7 @@ func TestDB_UpdateDifferenceConfirmation(t *testing.T) {
 			name: "test1",
 			args: args{
 				dest:  make([]staff, 100),
-				query: "select * from staff where id = 1",
+				query: "update staff set first_name = 'tes' where position = 'Engineer'",
 			},
 		},
 	}
@@ -40,7 +39,7 @@ func TestDB_UpdateDifferenceConfirmation(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			d, err := sqldiff.Connect("mysql", "root:root@tcp(127.0.0.1:3306)/employees")
 			if err != nil {
-				fmt.Println(err)
+				t.Errorf("%v", err)
 			}
 			staff := []staff{}
 			if err := d.UpdateDifferenceConfirmation(&staff, tt.args.query); (err != nil) != tt.wantErr {
