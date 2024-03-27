@@ -86,17 +86,17 @@ func (d *DB) UpdateDifferenceConfirmation(query string) error {
 	}
 	diffs := Diffs{}
 	for i, _ := range before {
-		diff := Diff{
+		DiffInfo := DiffInfo{
 			Before: before[i],
 			After:  after[i],
 		}
-		diff.check()
-		diffs = append(diffs, diff)
+		DiffInfo.check()
+		diffs = append(diffs, DiffInfo)
 	}
 	for _, v := range diffs {
 		fmt.Printf("Before:%s\n", v.Before)
 		fmt.Printf("After:%s\n", v.After)
-		fmt.Println("diff")
+		fmt.Println("DiffInfo")
 		for _, x := range v.Difference {
 			for key, val := range x {
 				fmt.Printf("%s:\n -%s\n +%s\n", key, val.Before, val.After)
@@ -106,29 +106,29 @@ func (d *DB) UpdateDifferenceConfirmation(query string) error {
 	return nil
 }
 
-type Diff struct {
+type DiffInfo struct {
 	Before     map[string]interface{}
 	After      map[string]interface{}
-	Difference []map[string]df
+	Difference []map[string]Diff
 }
 
-type Diffs []Diff
+type Diffs []DiffInfo
 
-func (d *Diff) check() {
+func (d *DiffInfo) check() {
 	for key, val := range d.Before {
 		if fmt.Sprintf("%s", val) != fmt.Sprintf("%s", d.After[key]) {
-			df := map[string]df{
+			Diff := map[string]Diff{
 				key: {
 					Before: val,
 					After:  d.After[key],
 				},
 			}
-			d.Difference = append(d.Difference, df)
+			d.Difference = append(d.Difference, Diff)
 		}
 	}
 }
 
-type df struct {
+type Diff struct {
 	Before interface{}
 	After  interface{}
 }
